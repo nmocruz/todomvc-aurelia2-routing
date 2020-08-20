@@ -1,6 +1,6 @@
 # todomvc-aurelia2
 
-This project is bootstrapped by [aurelia/new](https://github.com/aurelia/new).
+This project is bootstrapped by [aurelia/new](https://github.com/aurelia/new) and has the code on [my blog](https://nunocruz.site/2020/07/31/todo-list-au2/)
 
 ## Start dev web server
 
