@@ -1,0 +1,46 @@
+<section class="todoapp">
+    <header class="header">
+        <h1>todos</h1>
+        <input class="new-todo" placeholder="What needs to be done?" autofocus
+            keyup.delegate="onKeyUp($event)"
+            value.bind="newTodoTitle"/>
+    </header>
+    <section class="main">
+        <input class="toggle-all" id="toggle-all" type="checkbox">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list">
+            <li repeat.for="item of todoItems | todoFilter: filter" class="${item.isCompleted ? 'completed' : ''} ${item.isEditing ? 'editing' : ''}">
+                <div class="view">
+                  <input class="toggle" type="checkbox" checked.bind="item.isCompleted">
+                  <label dblclick.delegate="item.beginEdit()">${item.title}</label>
+                  <button click.delegate="$parent.deleteTodo(item)" class="destroy"></button>
+                </div>
+                <input class="edit"
+                       value.bind="item.editTitle"
+                       focus.to-view="item.isEditing"
+                       blur.trigger="item.cancelEdit()"
+                       keyup.trigger="item.onKeyUp($event)">
+              </li>
+            </ul>
+        </ul>
+    </section>
+    <footer class="footer" >
+        <span class="todo-count">
+            <strong>${countTodosLeft}</strong>
+             ${countTodosLeft == 1 ? 'item' : 'items'} left</span>
+          <ul class="filters">
+            <li>
+              <a class="${!filter ? 'selected' : ''}" href="#/">All</a>
+            </li>
+            <li>
+              <a class="${filter == 'active' ? 'selected' : ''}" href="#/active">Active</a>
+            </li>
+            
+            <li>
+              <a class="${filter == 'completed' ? 'selected' : ''}" href="#/completed">Completed</a>
+            </li>
+          </ul>
+          <button class="clear-completed" click.delegate="clearCompletedTodos()" show.bind="countTodosLeft < items.length">Clear completed</button>
+        
+    </footer>
+</section>
