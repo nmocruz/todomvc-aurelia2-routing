@@ -5,6 +5,11 @@ function sha256(plain) {
     return window.crypto.subtle.digest('SHA-256', data);
 }
 
+function base64urlencode(str) {
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
 export function generateRandomString(length = 28) {
   const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let array = new Uint8Array(length);
@@ -16,11 +21,6 @@ export function generateRandomString(length = 28) {
 export async function pkceChallengeFromVerifier(code_verifier){
     const hashed = await sha256(code_verifier);
     return base64urlencode(hashed);
-}
-
-function base64urlencode(str) {
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
-        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 export function parseQueryString(string) : {error?: string, code?: string; state?: string, error_description?: string }{

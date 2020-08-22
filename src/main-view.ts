@@ -4,8 +4,7 @@ import { AuthService } from './auth/auth-service';
 export class MainView implements IViewModel {
 
     constructor(@IRouter private router: IRouter, private auth: AuthService) {
-
-        
+   
     }
 
     async beforeBind(){
@@ -17,10 +16,8 @@ export class MainView implements IViewModel {
             if (await this.auth.isAuthenticated()) {
                 return true;
             }
-
             await this.auth.signin()
             return false;
         });
-        
     }
 }

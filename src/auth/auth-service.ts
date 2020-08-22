@@ -7,9 +7,8 @@ export class AuthService {
     private token = null;
     issuer = 'login.microsoftonline.com/e02b9a59-6e13-4bde-94af-4df2e9f9f7ea/v2.0';
     metadata = null;
-    constructor(@IRouter private router: IRouter) {
 
-    }
+    constructor(@IRouter private router: IRouter) {}
 
     public async signin(): Promise<void> {
         const config = await this.getConfig();
@@ -18,8 +17,15 @@ export class AuthService {
         var code_verifier = generateRandomString();
         localStorage.setItem("pkce_code_verifier", code_verifier);
         var code_challenge = await pkceChallengeFromVerifier(code_verifier);
-        const url = `${config.authorization_endpoint}?response_type=code&client_id=${encodeURIComponent(config.client_id)}&state=${encodeURIComponent(state)}&scope=${encodeURIComponent(config.requested_scopes)}&redirect_uri=${encodeURIComponent(config.redirect_uri)}&code_challenge=${encodeURIComponent(code_challenge)}&code_challenge_method=S256`;
-
+        const { client_id, redirect_uri, scope } = config; 
+        const params = new URLSearchParams({ response_type:'code', 
+            client_id, 
+            state,
+            scope, 
+            redirect_uri, 
+            code_challenge, 
+            code_challenge_method: 'S256' })
+        const url = `${config.authorization_endpoint}?${params}`;
         window.location.assign(url);
 
     }
@@ -62,10 +68,6 @@ export class AuthService {
         
     }
 
-    public signout(redirect = null): void {
-       
-    }
-
     async isAuthenticated(){
         if(this.token == null)
             return false;
@@ -82,7 +84,7 @@ export class AuthService {
             authorization_endpoint: this.metadata.authorization_endpoint,
             token_endpoint: this.metadata.token_endpoint,
             userinfo_endpoint: this.metadata.userinfo_endpoint,
-            requested_scopes: "email openid"
+            scope: "email openid"
         }
     }
 
