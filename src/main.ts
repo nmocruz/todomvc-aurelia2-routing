@@ -1,7 +1,8 @@
-import Aurelia from 'aurelia';
-import { TodoApp } from './todo-app';
-import { TodoFilterValueConverter } from './todo-filter'
+import Aurelia, { RouterConfiguration } from 'aurelia';
+import { MainView } from './main-view';
+import { TodoFilterValueConverter } from './todo-filter';
+
 Aurelia
-  .register(TodoFilterValueConverter)
-  .app(TodoApp)
+  .register(TodoFilterValueConverter, RouterConfiguration.customize({ useUrlFragmentHash: false }))
+  .app(MainView)
   .start();

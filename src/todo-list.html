@@ -1,6 +1,6 @@
 <section class="todoapp">
     <header class="header">
-        <h1>todos</h1>
+        <h1> ${userName} todos</h1>
         <input class="new-todo" placeholder="What needs to be done?" autofocus
             keyup.delegate="onKeyUp($event)"
             value.bind="newTodoTitle"/>
@@ -30,14 +30,14 @@
              ${countTodosLeft == 1 ? 'item' : 'items'} left</span>
           <ul class="filters">
             <li>
-              <a class="${!filter ? 'selected' : ''}" href="#/">All</a>
+              <a class="${!filter ? 'selected' : ''}" goto="/todo-list">All</a>
             </li>
             <li>
-              <a class="${filter == 'active' ? 'selected' : ''}" href="#/active">Active</a>
+              <a class="${filter == 'active' ? 'selected' : ''}" goto="/todo-list(active)">Active</a>
             </li>
             
             <li>
-              <a class="${filter == 'completed' ? 'selected' : ''}" href="#/completed">Completed</a>
+              <a class="${filter == 'completed' ? 'selected' : ''}" goto="/todo-list(completed)">Completed</a>
             </li>
           </ul>
           <button class="clear-completed" click.delegate="clearCompletedTodos()" show.bind="countTodosLeft < items.length">Clear completed</button>

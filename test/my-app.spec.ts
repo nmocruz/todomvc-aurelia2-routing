@@ -1,6 +1,6 @@
 import { TestContext, TestConfiguration } from '@aurelia/testing';
 import Aurelia from 'aurelia';
-import { TodoApp } from '../src/todo-app';
+import { MainView } from '../src/main-view';
 
 describe('todo-app', () => {
   it('should render message', async () => {
@@ -10,7 +10,7 @@ describe('todo-app', () => {
 
     const au = new Aurelia(container)
       .register(TestConfiguration)
-      .app({ host: node, component: TodoApp });
+      .app({ host: node, component: MainView });
 
     // const component = au.root.controller.bindingContext;
     await au.start().wait();

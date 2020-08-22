@@ -1,24 +1,29 @@
 import { TodoItem } from './todo-item'
 import { bindable } from 'aurelia'
+import { AuthService } from './auth/auth-service';
 const ENTER_KEY = 13;
 const STORAGE_NAME = 'todomvc-aurelia2';
 
-export class TodoApp {
+export class TodoList {
 
+  
   @bindable
   todoItems: TodoItem[] =[];
   newTodoTitle: string = null;
   filter: string;
   
-  constructor() {
+  @bindable userName = null;
+  constructor(private auth: AuthService) {
 
+    
     this.load();
-    window.onhashchange = ()=> {
-      const fragment = location.hash;
-      this.filter =  fragment.replace(/^#?\/?/, '');
-    }
   }
   
+  enter(params){
+    this.filter = params[0];
+    this.userName = this.auth.user?.name;
+  }
+
   onKeyUp(ev) {
     if (ev.keyCode === ENTER_KEY)
       this.addNewTodo(this.newTodoTitle);
@@ -54,6 +59,7 @@ export class TodoApp {
   }
   
   save(){
+  
     const items = this.todoItems.map(c=> {
       return {
         title: c.title,
@@ -68,6 +74,10 @@ export class TodoApp {
 		if (storageContent == undefined) { return; }
 
 		const simpleItems = JSON.parse(storageContent);
-    this.todoItems = simpleItems.map(c=> new TodoItem(c.title, c.isCompleted))
+    this.todoItems = simpleItems.map(c=> {
+      const todo = new TodoItem(c.title, c.isCompleted);
+      todo.itemChanged = this.save.bind(this);
+      return todo;
+    })
   }
 }

@@ -7,21 +7,19 @@ export class TodoItem{
 
   isEditing: boolean = false;
   editTitle: string = null;
-  @bindable
-  title: string = '';
-  @bindable
-  isCompleted: boolean = false;
-  
+  @bindable title = '';
+  @bindable isCompleted = false;
+ 
+  itemChanged: ()=> void
+
   constructor(title: string, isCompleted = false){
     this.title = title.trim();
     this.isCompleted = isCompleted;
   }
     
   beginEdit() {
-
 		this.editTitle = this.title;
     this.isEditing = true;
-   
   }
   
   commitEdit() {
@@ -35,14 +33,14 @@ export class TodoItem{
     this.isEditing = false;
   }
   
-  itemChanged: ()=> void
-
+ 
   titleChanged(oldValue, newValue){
     if(this.itemChanged)
       this.itemChanged();
   }
 
   isCompletedChanged(oldValue, newValue){
+    
     if(this.itemChanged)
       this.itemChanged();
   }
