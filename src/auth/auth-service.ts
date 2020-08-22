@@ -27,7 +27,6 @@ export class AuthService {
             code_challenge_method: 'S256' })
         const url = `${config.authorization_endpoint}?${params}`;
         window.location.assign(url);
-
     }
 
     public async processAuthResponse(){
@@ -42,7 +41,6 @@ export class AuthService {
                 alert("Invalid state");
             } else {
             
-                
                 this.token = await fetch(config.token_endpoint, {
                     method: 'POST',
                     body: new URLSearchParams({
@@ -64,8 +62,6 @@ export class AuthService {
         }
         localStorage.removeItem("pkce_state");
         localStorage.removeItem("pkce_code_verifier");
-
-        
     }
 
     async isAuthenticated(){
